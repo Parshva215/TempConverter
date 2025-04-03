@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Temperature Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f446c, #1a6b9c);
+            color: white;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f446c;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #11aab8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #0f446c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #11aab8;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 120px 20px;
+        }
+
+        .about-section {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .about-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #cccccc;
+        }
+
+        .reference-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .reference-section h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .reference-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .reference-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .reference-item h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .reference-item p {
+            color: #cccccc;
+            font-size: 1rem;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-section,
+            .reference-section {
+                padding: 20px;
+            }
+
+            .about-section h1,
+            .reference-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-thermometer-half"></i>
+            TempConverter
+        </a>
+        <div class="nav-links">
+            <a href="about.html">About</a>
+            <a href="team.html">Team</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="about-section">
+            <h1>About Temperature Converter</h1>
+            <p>Welcome to our Temperature Converter! This tool helps you convert temperatures between Celsius, Fahrenheit, and Kelvin with ease. Whether you're a student, scientist, or just curious about temperature conversions, our converter provides accurate results instantly.</p>
+            <p>Our converter features a clean, intuitive interface with real-time visual feedback. The background color changes based on the temperature you input, making it easy to understand the temperature range at a glance.</p>
+        </section>
+
+        <section class="reference-section">
+            <h2>Temperature Reference Points</h2>
+            <div class="reference-grid">
+                <div class="reference-item">
+                    <h3>Water Freezes</h3>
+                    <p>0°C / 32°F / 273.15K</p>
+                </div>
+                <div class="reference-item">
+                    <h3>Room Temperature</h3>
+                    <p>20°C / 68°F / 293.15K</p>
+                </div>
+                <div class="reference-item">
+                    <h3>Body Temperature</h3>
+                    <p>37°C / 98.6°F / 310.15K</p>
+                </div>
+                <div class="reference-item">
+                    <h3>Water Boils</h3>
+                    <p>100°C / 212°F / 373.15K</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Created with ❤️ for temperature conversion</p>
+        <p>&copy; 2025 TempConverter. All rights reserved.</p>
+    </footer>
+</body>
+</html> 

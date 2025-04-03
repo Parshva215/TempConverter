@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            transition: background 1s ease;
+            background: linear-gradient(135deg, #0f446c, #1a6b9c);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f446c;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #11aab8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #0f446c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #11aab8;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .converter-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .converter-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .units-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .unit-select {
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .conversion-arrow {
+            font-size: 24px;
+            color: #11aab8;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .conversion-arrow.show {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #11aab8;
+            box-shadow: 0 0 0 3px rgba(17, 170, 184, 0.1);
+        }
+
+        .error {
+            color: #ff4444;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        button {
+            background: #11aab8;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 170, 184, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        button:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: #0f446c;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        #result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reference-temps {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .reference-temps p {
+            margin: 5px 0;
+        }
+
+        .temp-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #0f446c;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .temp-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #11aab8;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .converter-container {
+                padding: 20px;
+            }
+
+            .temp-indicator {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i class="fas fa-thermometer-half"></i>
+            TempConverter
+        </a>
+        <div class="nav-links">
+            <a href="about.html">About</a>
+            <a href="team.html">Team</a>
+        </div>
+    </nav>
+
+    <div class="temp-indicator" id="tempIndicator">Current Temperature: --°C</div>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Temperature Converter</h1>
+            <p>Convert temperatures between Celsius, Fahrenheit, and Kelvin with ease. Get instant results and visual feedback.</p>
+        </section>
+
+        <div class="converter-container" id="converter">
+            <div class="input-group">
+                <input type="number" id="tempInput" placeholder="Enter Temperature" step="any">
+                <div class="error" id="error">Please enter a valid temperature</div>
+            </div>
+            <div class="units-container">
+                <div class="unit-select">
+                    <select id="fromUnit">
+                        <option value="Celsius">Celsius (°C)</option>
+                        <option value="Fahrenheit">Fahrenheit (°F)</option>
+                        <option value="Kelvin">Kelvin (K)</option>
+                    </select>
+                </div>
+                <div class="conversion-arrow" id="conversionArrow">→</div>
+                <div class="unit-select">
+                    <select id="toUnit">
+                        <option value="Celsius">Celsius (°C)</option>
+                        <option value="Fahrenheit">Fahrenheit (°F)</option>
+                        <option value="Kelvin">Kelvin (K)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="convertTemperature()">Convert Temperature</button>
+            <h3 id="result"></h3>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Created with ❤️ for temperature conversion</p>
+        <p>&copy; 2025 TempConverter. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const tempInput = document.getElementById('tempInput');
+        const fromUnit = document.getElementById('fromUnit');
+        const toUnit = document.getElementById('toUnit');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+        const tempIndicator = document.getElementById('tempIndicator');
+        const conversionArrow = document.getElementById('conversionArrow');
+        const body = document.body;
+
+        // Remove real-time conversion listeners
+        tempInput.addEventListener('input', updateBackground);
+        fromUnit.addEventListener('change', updateBackground);
+        toUnit.addEventListener('change', updateBackground);
+
+        function getBackgroundColor(temp) {
+            // Convert temperature to Celsius for consistent color mapping
+            let tempC = temp;
+            if (fromUnit.value === "Fahrenheit") {
+                tempC = (temp - 32) * 5/9;
+            } else if (fromUnit.value === "Kelvin") {
+                tempC = temp - 273.15;
+            }
+
+            // Color mapping based on temperature
+            if (tempC <= 0) {
+                return 'linear-gradient(135deg, #0f446c, #1a6b9c)'; // Cold blue
+            } else if (tempC <= 20) {
+                return 'linear-gradient(135deg, #1a6b9c, #2a8bc0)'; // Cool blue
+            } else if (tempC <= 30) {
+                return 'linear-gradient(135deg, #2a8bc0, #4a9cc7)'; // Mild blue
+            } else if (tempC <= 40) {
+                return 'linear-gradient(135deg, #4a9cc7, #ffa07a)'; // Warm orange
+            } else {
+                return 'linear-gradient(135deg, #ffa07a, #ff6b6b)'; // Hot red
+            }
+        }
+
+        function updateBackground() {
+            const temp = parseFloat(tempInput.value);
+            if (!isNaN(temp)) {
+                body.style.background = getBackgroundColor(temp);
+                tempIndicator.classList.add('show');
+                tempIndicator.textContent = `Current Temperature: ${temp.toFixed(1)}°${fromUnit.value}`;
+            } else {
+                body.style.background = 'linear-gradient(135deg, #0f446c, #1a6b9c)';
+                tempIndicator.classList.remove('show');
+                tempIndicator.textContent = 'Current Temperature: --°C';
+            }
+        }
+
+        function convertTemperature() {
+            const temp = parseFloat(tempInput.value);
+            
+            // Input validation
+            if (isNaN(temp)) {
+                error.style.display = 'block';
+                result.classList.remove('show');
+                conversionArrow.classList.remove('show');
+                return;
+            }
+
+            error.style.display = 'none';
+            let convertedTemp;
+
+            if (fromUnit.value === toUnit.value) {
+                convertedTemp = temp;
+            } else if (fromUnit.value === "Celsius") {
+                convertedTemp = toUnit.value === "Fahrenheit" ? (temp * 9/5) + 32 : temp + 273.15;
+            } else if (fromUnit.value === "Fahrenheit") {
+                convertedTemp = toUnit.value === "Celsius" ? (temp - 32) * 5/9 : (temp - 32) * 5/9 + 273.15;
+            } else if (fromUnit.value === "Kelvin") {
+                convertedTemp = toUnit.value === "Celsius" ? temp - 273.15 : (temp - 273.15) * 9/5 + 32;
+            }
+
+            // Show conversion arrow
+            conversionArrow.classList.add('show');
+
+            // Format and show the result with animation
+            const formattedTemp = convertedTemp.toFixed(2);
+            result.textContent = `${formattedTemp}° ${toUnit.value}`;
+            result.classList.add('show');
+
+            // Add button click effect
+            const button = document.querySelector('button');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 100);
+        }
+    </script>
+</body>
+</html>
